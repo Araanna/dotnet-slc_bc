@@ -1,0 +1,23 @@
+# .NET Core / ASP.NET Core
+bin/
+obj/
+
+# Visual Studio files
+.vs/
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+
+# Rider / JetBrains
+.idea/
+
+# User-specific files
+*.user
+*.suo
+
+# Logs
+*.log
+
+# dotenv
+.env
