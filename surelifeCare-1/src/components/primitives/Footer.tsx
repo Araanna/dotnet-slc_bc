@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Phone, Mail } from "lucide-react";
 import SLCLogo from "../../assets/images/SurelifeLogo.png";
 import { FaFacebookF } from "react-icons/fa";
+import { useNavigate, useLocation } from "react-router-dom";
 
 // --- Constants ---
 const COLORS = {
@@ -42,26 +43,55 @@ const ContactDetail: React.FC<{
   );
 };
 
-const NavItem: React.FC<{ text: string }> = ({ text }) => {
-  return (
-    <li className="mb-3">
-      <a
-        href="#"
-        className={`text-sm font-semibold tracking-wider ${COLORS.TEXT_LIGHT} relative transition-all duration-300 ease-in-out 
-          hover:text-[#c69c6d] transform hover:translate-x-2
-          before:content-[''] before:absolute before:left-0 before:bottom-0 
-          before:w-0 before:h-0.5 before:bg-[#c69c6d] 
-          before:transition-all before:duration-300 
-          hover:before:w-full`}
-      >
-        {text}
-      </a>
-    </li>
-  );
-};
-
 // --- Main Footer Component ---
 const Footer: React.FC = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [shouldScrollTop, setShouldScrollTop] = useState(false);
+
+  // ✅ Scrolls to top only after /about page is mounted
+  useEffect(() => {
+    if (shouldScrollTop && location.pathname === "/about") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      setShouldScrollTop(false);
+    }
+  }, [location.pathname, shouldScrollTop]);
+
+  // Scroll or navigate to section (same logic as Navbar)
+  const handleNavigateAndScroll = (id: string) => {
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element)
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 400);
+    } else {
+      const element = document.getElementById(id);
+      if (element)
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+const goToAbout = () => {
+  navigate("/about");
+  setTimeout(() => {
+    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+  }, 0);
+};
+
+
+  const handleContact = () => {
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+      }, 400);
+    } else {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    }
+  };
+
   return (
     <footer
       className={`${COLORS.DARK_BG} font-['Inter',_sans-serif] w-full relative z-10 overflow-hidden`}
@@ -86,6 +116,7 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="w-full lg:w-1/2 flex flex-col md:flex-row gap-12 md:gap-16 lg:gap-20 md:ml-20">
+            {/* Contact + Hours */}
             <div className="flex-1 space-y-10">
               <div className="transform transition-all duration-500 hover:translate-y-1">
                 <h2
@@ -135,7 +166,7 @@ const Footer: React.FC = () => {
               </div>
             </div>
 
-            {/* Information Column */}
+            {/* Information Column (fixed scroll) */}
             <div className="flex-1 transform transition-all duration-500 hover:translate-y-1">
               <h2
                 className="text-lg font-bold text-white mb-6 uppercase tracking-wider relative inline-block
@@ -147,11 +178,46 @@ const Footer: React.FC = () => {
               </h2>
               <nav>
                 <ul className="space-y-1">
-                  {["HOME", "ABOUT", "SERVICES", "WHAT WE DO", "CONTACT"].map(
-                    (item) => (
-                      <NavItem key={item} text={item} />
-                    )
-                  )}
+                  <li>
+                    <button
+                      onClick={() => handleNavigateAndScroll("home")}
+                      className="text-sm font-semibold tracking-wider text-gray-100 relative transition-all duration-300 ease-in-out hover:text-[#c69c6d] transform hover:translate-x-2 before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-0 before:h-0.5 before:bg-[#c69c6d] before:transition-all before:duration-300 hover:before:w-full"
+                    >
+                      HOME
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={goToAbout}
+                      className="text-sm font-semibold tracking-wider text-gray-100 relative transition-all duration-300 ease-in-out hover:text-[#c69c6d] transform hover:translate-x-2 before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-0 before:h-0.5 before:bg-[#c69c6d] before:transition-all before:duration-300 hover:before:w-full"
+                    >
+                      ABOUT
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => handleNavigateAndScroll("services")}
+                      className="text-sm font-semibold tracking-wider text-gray-100 relative transition-all duration-300 ease-in-out hover:text-[#c69c6d] transform hover:translate-x-2 before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-0 before:h-0.5 before:bg-[#c69c6d] before:transition-all before:duration-300 hover:before:w-full"
+                    >
+                      SERVICES
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => handleNavigateAndScroll("products")}
+                      className="text-sm font-semibold tracking-wider text-gray-100 relative transition-all duration-300 ease-in-out hover:text-[#c69c6d] transform hover:translate-x-2 before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-0 before:h-0.5 before:bg-[#c69c6d] before:transition-all before:duration-300 hover:before:w-full"
+                    >
+                      WHAT WE DO
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={handleContact}
+                      className="text-sm font-semibold tracking-wider text-gray-100 relative transition-all duration-300 ease-in-out hover:text-[#c69c6d] transform hover:translate-x-2 before:content-[''] before:absolute before:left-0 before:bottom-0 before:w-0 before:h-0.5 before:bg-[#c69c6d] before:transition-all before:duration-300 hover:before:w-full"
+                    >
+                      CONTACT
+                    </button>
+                  </li>
                 </ul>
               </nav>
             </div>

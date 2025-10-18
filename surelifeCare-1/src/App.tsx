@@ -1,4 +1,5 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import Home from "./components/pages/Home";
 import Services from "./components/pages/Services";
 import Products from "./components/pages/Products";
@@ -6,11 +7,18 @@ import HeroMessage from "./components/pages/HeroMessage";
 import Footer from "./components/primitives/Footer";
 import Navbar from "./components/primitives/Navbar";
 import About from "./components/pages/AboutUs";
-import Masonry from './components/primitives/Masonary';
+import Masonry from "./components/primitives/Masonary";
 import { galleryItems } from "./data/galleryItems";
 import "./App.css";
 
 function App() {
+  const location = useLocation();
+
+  // Automatically scroll to top when navigating to a new page
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [location.pathname]);
+
   return (
     <main className="min-h-screen flex flex-col scroll-smooth m-0 w-full overflow-x-hidden">
       <Navbar />
@@ -34,8 +42,10 @@ function App() {
                   <Products />
                 </section>
 
-                {/* Masonry Gallery Section - Hidden on mobile */}
-                <section id="gallery" className="w-full py-8 md:py-16 lg:py-20 xl:py-[20rem] mb-[16rem] md:mb-16 lg:mb-20 xl:mb-[20rem] hidden md:block">
+                <section
+                  id="gallery"
+                  className="w-full py-8 md:py-16 lg:py-20 xl:py-[20rem] mb-[16rem] md:mb-16 lg:mb-20 xl:mb-[20rem] hidden md:block"
+                >
                   <div className="container mx-auto px-4 sm:px-6 lg:px-8 w-full">
                     <div className="flex justify-center items-center w-full">
                       <div className="w-full max-w-7xl mb-[20rem]">
@@ -48,7 +58,7 @@ function App() {
                           scaleOnHover={true}
                           hoverScale={0.95}
                           blurToFocus={true}
-                          colorShiftOnHover={false}           
+                          colorShiftOnHover={false}
                         />
                       </div>
                     </div>
