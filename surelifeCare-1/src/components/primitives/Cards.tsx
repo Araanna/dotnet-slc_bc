@@ -114,10 +114,10 @@ function Cards({ contract }: CardsProps) {
       
       <div 
         className="text-left p-4 flex flex-col justify-between h-full flex-1 
-                   border border-green-950 rounded-b-lg border-t-0"
+                   rounded-b-lg border-t-0"
       >
         <div>
-          <div className={`flex flex-col items-start ${contract.subtitle ? 'mb-2' : 'mb-4'} transition-all duration-200`}>
+          <div className={`flex flex-col items-start ${contract.subtitle ? 'mb-2' : 'mb-4'} transition-all duration-200 `}>
             <div className="flex justify-between items-center w-full gap-2 mb-1">
               <h1 className="text-xl font-semibold text-gray-700 hover:text-gray-900 transition-colors duration-200 flex-1">
                 {contract.title}
